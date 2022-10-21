@@ -6,7 +6,7 @@ import {
   UserIcon,
 } from '@heroicons/react/20/solid';
 import { Fragment } from 'react';
-import { RiLogoutBoxFill, RiLogoutBoxLine } from 'react-icons/ri';
+import { RiLogoutBoxLine } from 'react-icons/ri';
 
 export default function DropMenu() {
   return (
@@ -70,7 +70,7 @@ export default function DropMenu() {
                       aria-hidden='true'
                     />
                   ) : (
-                    <RiLogoutBoxFill
+                    <RiLogoutBoxLine
                       className='mr-2 h-5 w-5'
                       aria-hidden='true'
                     />

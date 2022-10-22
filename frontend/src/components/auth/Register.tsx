@@ -1,4 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react';
+import axios from 'axios';
+import { useRouter } from 'next/router';
 import { Fragment, useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
@@ -12,6 +14,7 @@ type RegisterType = {
 };
 
 function Register() {
+  const router = useRouter();
   const show = useAppSelector((state) => state.modals.showRegister);
   const dispatch = useAppDispatch();
   const [credentials, setCredentials] = useState<RegisterType>({
@@ -24,8 +27,20 @@ function Register() {
     dispatch(toggleRegisterModal());
   };
 
-  const register = () => {
-    toggleModal();
+  const register = async () => {
+    try {
+      if (process.env.API_URL) {
+        const response = await axios.post(process.env.API_URL + '/', {
+          ...credentials,
+        });
+      }
+      toggleModal();
+      router.reload();
+    } catch (error) {
+      let message = 'Unknown Error';
+      if (error instanceof Error) message = error.message;
+      return message;
+    }
   };
 
   return (

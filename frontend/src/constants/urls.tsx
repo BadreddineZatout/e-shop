@@ -1,5 +1,11 @@
 import { HomeIcon } from '@heroicons/react/20/solid';
 
+export const AXIOS_CONFIG = {
+  headers: {
+    Accept: 'application/json',
+  },
+};
+
 export const ADMIN_URLS = [
   {
     group: 'Dashboard',

@@ -8,8 +8,10 @@ import * as yup from 'yup';
 
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 
+import { AXIOS_CONFIG } from '@/constants';
 import { API_URL } from '@/constants/env';
 import { toggleLoginModal } from '@/features/modals';
+import { login } from '@/features/user';
 
 const schema = yup
   .object({
@@ -42,12 +44,17 @@ function Login() {
   const handleLogin = handleSubmit(async (credentials) => {
     try {
       if (API_URL) {
-        await axios.post(API_URL + '/login', {
-          ...credentials,
-        });
+        const response = await axios.post(
+          API_URL + 'api/login',
+          {
+            ...credentials,
+          },
+          AXIOS_CONFIG
+        );
+        dispatch(login(response.data));
       }
       toggleModal();
-      router.reload();
+      // router.reload();
     } catch (error) {
       let message = 'Unknown Error';
       if (error instanceof Error) message = error.message;

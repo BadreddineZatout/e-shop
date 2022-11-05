@@ -24,9 +24,9 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             return response()->json([
-                'user' => $user,
+                'user' => $user->only(['id', 'name', 'email']),
                 'token' => $token->plainTextToken,
-            ], 301);
+            ], 200);
         }
 
         return response()->json('Register failed !', 400);
@@ -39,9 +39,9 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             return response()->json([
-                'user' => auth()->user(),
+                'user' => auth()->user()->only(['id', 'name', 'email']),
                 'token' => $token->plainTextToken,
-            ], 301);
+            ], 200);
         }
 
         return response()->json('Login failed !', 400);

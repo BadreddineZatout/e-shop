@@ -8,6 +8,7 @@ export type UserState = {
     name: string;
     email: string;
   };
+  token: string;
 };
 
 const initialState: UserState = {
@@ -17,6 +18,7 @@ const initialState: UserState = {
     name: '',
     email: '',
   },
+  token: '',
 };
 
 export const userSlice = createSlice({
@@ -25,13 +27,16 @@ export const userSlice = createSlice({
   reducers: {
     login: (state: UserState, action) => {
       state.isLogged = true;
-      state.user.id = action.payload.id;
-      state.user.name = action.payload.name;
-      state.user.email = action.payload.email;
+      const { user, token } = action.payload;
+      state.user.id = user.id;
+      state.user.name = user.name;
+      state.user.email = user.email;
+      state.token = token;
     },
     logout: (state: UserState) => {
       state.isLogged = false;
       state.user = initialState.user;
+      state.token = initialState.token;
     },
   },
 });

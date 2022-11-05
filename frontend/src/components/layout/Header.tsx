@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 
 import { useAppSelector } from '@/lib/hooks';
 
+import DropMenu from '@/components/layout/DropMenu';
 import UnstyledLink from '@/components/links/UnstyledLink';
 
 import { toggleLoginModal, toggleRegisterModal } from '@/features/modals';
@@ -29,6 +30,9 @@ export default function Header() {
                 <Link href='/'>
                   <a className='text-white hover:text-light'>Home</a>
                 </Link>
+              </li>
+              <li>
+                <DropMenu />
               </li>
             </ul>
           </nav>

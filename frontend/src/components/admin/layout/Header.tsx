@@ -6,10 +6,10 @@ import UnstyledLink from '@/components/links/UnstyledLink';
 
 export default function Header() {
   return (
-    <header className='sticky top-0 z-50 bg-dark py-2 text-light'>
+    <header className='sticky top-0 z-50 bg-dark py-1 text-light'>
       <div className='flex h-14 items-center justify-between px-5'>
         <UnstyledLink
-          href='/'
+          href='/admin'
           className='flex items-center gap-x-5 text-xl font-bold hover:text-secondary'
         >
           <ImCart className='h-10 w-10' />

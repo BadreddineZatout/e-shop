@@ -5,7 +5,7 @@ import { ADMIN_URLS } from '@/constants';
 
 function Sidebar() {
   return (
-    <div className='bg-dark px-5 py-8 text-light'>
+    <div className='border-t border-light bg-dark px-5 py-8 text-light'>
       {ADMIN_URLS &&
         ADMIN_URLS.map((item) => (
           <div key={item.group}>

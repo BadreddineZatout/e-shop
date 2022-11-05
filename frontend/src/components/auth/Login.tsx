@@ -54,7 +54,7 @@ function Login() {
         dispatch(login(response.data));
       }
       toggleModal();
-      // router.reload();
+      router.reload();
     } catch (error) {
       let message = 'Unknown Error';
       if (error instanceof Error) message = error.message;

@@ -53,7 +53,6 @@ function Login() {
         );
         dispatch(login(response.data));
       }
-      toggleModal();
       router.reload();
     } catch (error) {
       let message = 'Unknown Error';

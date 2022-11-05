@@ -49,7 +49,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        auth()->user()->tokens()->delete();
+        User::find($request->id)->tokens()->delete();
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();

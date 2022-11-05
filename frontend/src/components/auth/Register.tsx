@@ -46,7 +46,6 @@ function Register() {
           ...credentials,
         });
       }
-      toggleModal();
       router.reload();
     } catch (error) {
       let message = 'Unknown Error';

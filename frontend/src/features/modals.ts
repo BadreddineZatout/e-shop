@@ -15,10 +15,10 @@ export const modalsSlice = createSlice({
   name: 'modals',
   initialState,
   reducers: {
-    toggleLoginModal: (state) => {
+    toggleLoginModal: (state: ModalState) => {
       state.showLogin = !state.showLogin;
     },
-    toggleRegisterModal: (state) => {
+    toggleRegisterModal: (state: ModalState) => {
       state.showRegister = !state.showRegister;
     },
   },

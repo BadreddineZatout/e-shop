@@ -1,28 +1,59 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { Fragment, useState } from 'react';
+import { yupResolver } from '@hookform/resolvers/yup';
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import { Fragment } from 'react';
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
 
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 
+import { API_URL } from '@/constants/env';
 import { toggleLoginModal } from '@/features/modals';
 
-type LoginType = {
-  email: string;
-  password: string;
-};
+const schema = yup
+  .object({
+    email: yup.string().email().required('Email is required'),
+    password: yup
+      .string()
+      .required('Password is required')
+      .min(8, 'Your password should have 8 letters minimum'),
+  })
+  .required();
 
 function Login() {
-  const show = useAppSelector((state) => state.modals.showLogin);
   const dispatch = useAppDispatch();
-  const [credentials, setCredentials] = useState<LoginType>({
-    email: '',
-    password: '',
+  const router = useRouter();
+
+  const show = useAppSelector((state) => state.modals.showLogin);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
   });
+
   function toggleModal() {
     dispatch(toggleLoginModal());
   }
-  const login = () => {
-    toggleModal();
-  };
+
+  const handleLogin = handleSubmit(async (credentials) => {
+    try {
+      if (API_URL) {
+        await axios.post(API_URL + '/login', {
+          ...credentials,
+        });
+      }
+      toggleModal();
+      router.reload();
+    } catch (error) {
+      let message = 'Unknown Error';
+      if (error instanceof Error) message = error.message;
+      return message;
+    }
+  });
   return (
     <>
       <Transition appear show={show} as={Fragment}>
@@ -62,31 +93,31 @@ function Login() {
                       className='ml-5 w-full rounded-md border border-secondary focus:border-dark focus:ring-1 focus:ring-dark'
                       placeholder='email'
                       type='text'
-                      onChange={(e) =>
-                        setCredentials({
-                          ...credentials,
-                          email: e.target.value,
-                        })
-                      }
+                      {...register('email')}
                     />
+                    <p className='w-full text-left text-sm text-red-500'>
+                      {typeof errors.email?.message == 'string'
+                        ? errors.email?.message
+                        : ''}
+                    </p>
                     <input
                       className='ml-5 w-full rounded-md border border-secondary focus:border-dark focus:ring-1 focus:ring-dark'
                       placeholder='password'
                       type='password'
-                      onChange={(e) =>
-                        setCredentials({
-                          ...credentials,
-                          password: e.target.value,
-                        })
-                      }
+                      {...register('password')}
                     />
+                    <p className='w-full text-left text-sm text-red-500'>
+                      {typeof errors.password?.message == 'string'
+                        ? errors.password?.message
+                        : ''}
+                    </p>
                   </form>
 
                   <div className='mt-10 w-full text-center'>
                     <button
                       type='button'
                       className='inline-flex w-full justify-center rounded-md border border-transparent bg-light px-4 py-2 text-sm font-medium text-primary hover:bg-secondary hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2'
-                      onClick={login}
+                      onClick={handleLogin}
                     >
                       Log In
                     </button>

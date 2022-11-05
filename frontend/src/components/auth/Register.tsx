@@ -8,6 +8,7 @@ import * as yup from 'yup';
 
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 
+import { API_URL } from '@/constants/env';
 import { toggleRegisterModal } from '@/features/modals';
 
 const schema = yup
@@ -29,7 +30,6 @@ function Register() {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -41,12 +41,11 @@ function Register() {
 
   const handleRegister = handleSubmit(async (credentials) => {
     try {
-      if (process.env.API_URL) {
-        const response = await axios.post(process.env.API_URL + '/', {
+      if (API_URL) {
+        await axios.post(API_URL + '/register', {
           ...credentials,
         });
       }
-      reset();
       toggleModal();
       router.reload();
     } catch (error) {

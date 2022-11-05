@@ -1,10 +1,12 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 
 import modalsReducer from './modals';
+import userReducer from './user';
 
 export const store = configureStore({
   reducer: {
     modals: modalsReducer,
+    user: userReducer,
   },
 });
 

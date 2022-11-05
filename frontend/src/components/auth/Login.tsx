@@ -52,8 +52,9 @@ function Login() {
           AXIOS_CONFIG
         );
         dispatch(login(response.data));
+        if (response.data.is_admin) return router.push('/admin');
+        return router.reload();
       }
-      router.reload();
     } catch (error) {
       let message = 'Unknown Error';
       if (error instanceof Error) message = error.message;

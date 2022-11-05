@@ -8,6 +8,7 @@ export type UserState = {
     name: string;
     email: string;
   };
+  is_admin: boolean;
   token: string;
 };
 
@@ -18,6 +19,7 @@ const initialState: UserState = {
     name: '',
     email: '',
   },
+  is_admin: false,
   token: '',
 };
 
@@ -27,15 +29,17 @@ export const userSlice = createSlice({
   reducers: {
     login: (state: UserState, action) => {
       state.isLogged = true;
-      const { user, token } = action.payload;
+      const { user, is_admin, token } = action.payload;
       state.user.id = user.id;
       state.user.name = user.name;
       state.user.email = user.email;
+      state.is_admin = is_admin;
       state.token = token;
     },
     logout: (state: UserState) => {
       state.isLogged = false;
       state.user = initialState.user;
+      state.is_admin = false;
       state.token = initialState.token;
     },
   },

@@ -8,10 +8,10 @@ import * as yup from 'yup';
 
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 
+import { AXIOS_CONFIG } from '@/constants';
 import { API_URL } from '@/constants/env';
 import { toggleRegisterModal } from '@/features/modals';
 import { login } from '@/features/user';
-import { AXIOS_CONFIG } from '@/constants';
 
 const schema = yup
   .object({

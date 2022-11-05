@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,6 +26,7 @@ class AuthController extends Controller
 
             return response()->json([
                 'user' => $user->only(['id', 'name', 'email']),
+                'is_admin' => $user->role_id == Role::ADMIN,
                 'token' => $token->plainTextToken,
             ], 200);
         }
@@ -40,6 +42,7 @@ class AuthController extends Controller
 
             return response()->json([
                 'user' => auth()->user()->only(['id', 'name', 'email']),
+                'is_admin' => auth()->user()->role_id == Role::ADMIN,
                 'token' => $token->plainTextToken,
             ], 200);
         }

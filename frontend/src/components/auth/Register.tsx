@@ -10,6 +10,8 @@ import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 
 import { API_URL } from '@/constants/env';
 import { toggleRegisterModal } from '@/features/modals';
+import { login } from '@/features/user';
+import { AXIOS_CONFIG } from '@/constants';
 
 const schema = yup
   .object({
@@ -42,9 +44,14 @@ function Register() {
   const handleRegister = handleSubmit(async (credentials) => {
     try {
       if (API_URL) {
-        await axios.post(API_URL + '/register', {
-          ...credentials,
-        });
+        const response = await axios.post(
+          API_URL + 'api/register',
+          {
+            ...credentials,
+          },
+          AXIOS_CONFIG
+        );
+        dispatch(login(response.data));
       }
       router.reload();
     } catch (error) {
